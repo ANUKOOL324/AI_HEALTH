@@ -8,7 +8,7 @@ interface LoginPageProps {
 
 export default async function LoginPage({ searchParams }: LoginPageProps) {
   const params = (await searchParams) ?? {};
-  const redirectTo = params.redirect?.startsWith("/hospital") ? "/hospital" : "/";
+  const redirectTo = params.redirect?.startsWith("/hospital") ? "/hospital" : "/patient/feed";
 
   return <LoginForm redirectTo={redirectTo} />;
 }

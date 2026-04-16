@@ -28,14 +28,12 @@ interface MedicalShopsDiscoveryProps {
     state?: string;
     area?: string;
   };
-  createPageHref: (page: number) => string;
 }
 
 export function MedicalShopsDiscovery({
   initialShops,
   pagination,
   filters,
-  createPageHref,
 }: MedicalShopsDiscoveryProps) {
   const [smartQuery, setSmartQuery] = useState("");
   const [smartResults, setSmartResults] = useState<SemanticMedicalShopSearchResult[] | null>(null);
@@ -218,7 +216,6 @@ export function MedicalShopsDiscovery({
             <MedicalShopsPagination
               currentPage={pagination.page}
               totalPages={pagination.totalPages}
-              createPageHref={createPageHref}
             />
           </FadeIn>
         ) : null}

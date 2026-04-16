@@ -62,7 +62,7 @@ export function AuthGuard({
   }
 
   if (allowedRoles?.length && !allowedRoles.includes(user.role)) {
-    return <div className   ="p-6 text-sm text-[var(--muted)]">Redirecting...</div>;
+    return <div className="p-6 text-sm text-[var(--muted)]">Redirecting...</div>;
   }
 
   return <>{children}</>;

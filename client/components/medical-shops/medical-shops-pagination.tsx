@@ -1,7 +1,10 @@
+"use client";
+
+import { useSearchParams } from "next/navigation";
+
 interface MedicalShopsPaginationProps {
   currentPage: number;
   totalPages: number;
-  createPageHref: (page: number) => string;
 }
 
 const buildPageNumbers = (currentPage: number, totalPages: number) => {
@@ -11,11 +14,20 @@ const buildPageNumbers = (currentPage: number, totalPages: number) => {
     .sort((a, b) => a - b);
 };
 
-export function MedicalShopsPagination({
-  currentPage,
-  totalPages,
-  createPageHref,
-}: MedicalShopsPaginationProps) {
+export function MedicalShopsPagination({ currentPage, totalPages }: MedicalShopsPaginationProps) {
+  const searchParams = useSearchParams();
+
+  const createPageHref = (page: number) => {
+    const query = new URLSearchParams(searchParams.toString());
+    if (page > 1) {
+      query.set("page", String(page));
+    } else {
+      query.delete("page");
+    }
+    const queryString = query.toString();
+    return queryString ? `/medical-shops?${queryString}` : "/medical-shops";
+  };
+
   if (totalPages <= 1) {
     return null;
   }

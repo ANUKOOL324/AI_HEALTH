@@ -29,14 +29,12 @@ interface HospitalsDiscoveryProps {
     availabilityStatus?: "free" | "busy";
     search?: string;
   };
-  createPageHref: (page: number) => string;
 }
 
 export function HospitalsDiscovery({
   initialHospitals,
   pagination,
   filters,
-  createPageHref,
 }: HospitalsDiscoveryProps) {
   const [smartQuery, setSmartQuery] = useState("");
   const [smartResults, setSmartResults] = useState<SemanticHospitalSearchResult[] | null>(null);
@@ -236,7 +234,6 @@ export function HospitalsDiscovery({
             <HospitalsPagination
               currentPage={pagination.page}
               totalPages={pagination.totalPages}
-              createPageHref={createPageHref}
             />
           </FadeIn>
         ) : null}
