@@ -26,7 +26,6 @@ interface PublicIssuesFeedProps {
     issueType?: "public-help" | "equipment-shortage" | "ambulance-request" | "general";
     roleType?: "patient" | "hospital";
   };
-  createPageHref: (page: number) => string;
 }
 
 function matchesFilters(
@@ -43,7 +42,6 @@ export function PublicIssuesFeed({
   initialIssues,
   pagination: initialPagination,
   filters,
-  createPageHref,
 }: PublicIssuesFeedProps) {
   const [issues, setIssues] = useState(initialIssues);
   const [pagination, setPagination] = useState(initialPagination);
@@ -159,7 +157,6 @@ export function PublicIssuesFeed({
           <IssuesPagination
             currentPage={pagination.page}
             totalPages={pagination.totalPages}
-            createPageHref={createPageHref}
           />
         </FadeIn>
       </section>

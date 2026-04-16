@@ -12,39 +12,62 @@ import { useAuthStore } from "@/store";
 import type { AuthResponse } from "@/types";
 
 interface LoginFormProps {
-  redirectTo: "/" | "/hospital";
+  redirectTo: "/" | "/hospital" | "/patient/feed";
 }
 
 export function LoginForm({ redirectTo }: LoginFormProps) {
   const router = useRouter();
-  const { isAuthenticated, isHydrated } = useAuth();
+  const { isAuthenticated, isHydrated, syncCurrentUser } = useAuth();
   const { setSession } = useAuthStore();
   const toast = useToast();
   const { isLoading, error, run } = useAsyncTask<AuthResponse>();
 
-  const [form, setForm] = useState({
-    email: "",
-    password: "",
-  });
+  const [isValidating, setIsValidating] = useState(false);
+  const [form, setForm] = useState({ email: "", password: "" });
 
+  // When the store rehydrates with a saved session, validate the token
+  // against the server before redirecting. Stale/expired tokens are cleared
+  // by syncCurrentUser so the login form shows normally.
   useEffect(() => {
-    if (isHydrated && isAuthenticated) {
-      router.replace(redirectTo);
-    }
-  }, [isAuthenticated, isHydrated, redirectTo, router]);
+    if (!isHydrated || !isAuthenticated) return;
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    setIsValidating(true);
+    syncCurrentUser()
+      .then((user) => {
+        if (user) {
+          router.replace(user.role === "patient" ? "/patient/feed" : "/hospital");
+        }
+      })
+      .finally(() => setIsValidating(false));
+  }, [isAuthenticated, isHydrated, router, syncCurrentUser]);
+
+  const handleSubmit = async (event: React.SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     try {
       const result = await run(() => authService.login(form));
       setSession(result);
       toast.success("Signed in successfully", "Your account session is ready.");
-      router.push(redirectTo);
+      // Redirect based on role, falling back to the prop if role is unknown
+      const dest = result.user?.role === "patient" ? "/patient/feed" : result.user?.role ? "/hospital" : redirectTo;
+      router.push(dest);
     } catch (submitError) {
       toast.error("Login failed", getErrorMessage(submitError, "Please check your credentials and try again."));
     }
   };
+
+  // Show a minimal loading state while the stored token is being validated
+  if (isValidating) {
+    return (
+      <AuthShell
+        title="Welcome back"
+        description="Sign in to manage appointments, equipment, ambulances, and coordination workflows."
+        footer={null}
+      >
+        <p className="py-6 text-center text-sm text-[var(--muted)]">Verifying your session…</p>
+      </AuthShell>
+    );
+  }
 
   return (
     <AuthShell
@@ -97,7 +120,7 @@ export function LoginForm({ redirectTo }: LoginFormProps) {
           disabled={isLoading}
           className="inline-flex w-full items-center justify-center rounded-full bg-[var(--primary)] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[var(--primary-strong)] disabled:cursor-not-allowed disabled:opacity-70"
         >
-          {isLoading ? "Signing in..." : "Sign in"}
+          {isLoading ? "Signing in…" : "Sign in"}
         </button>
       </form>
     </AuthShell>

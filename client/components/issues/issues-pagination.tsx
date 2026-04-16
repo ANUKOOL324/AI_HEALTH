@@ -1,7 +1,10 @@
+"use client";
+
+import { useSearchParams } from "next/navigation";
+
 interface IssuesPaginationProps {
   currentPage: number;
   totalPages: number;
-  createPageHref: (page: number) => string;
 }
 
 const buildPageNumbers = (currentPage: number, totalPages: number) => {
@@ -11,7 +14,20 @@ const buildPageNumbers = (currentPage: number, totalPages: number) => {
     .sort((a, b) => a - b);
 };
 
-export function IssuesPagination({ currentPage, totalPages, createPageHref }: IssuesPaginationProps) {
+export function IssuesPagination({ currentPage, totalPages }: IssuesPaginationProps) {
+  const searchParams = useSearchParams();
+
+  const createPageHref = (page: number) => {
+    const query = new URLSearchParams(searchParams.toString());
+    if (page > 1) {
+      query.set("page", String(page));
+    } else {
+      query.delete("page");
+    }
+    const queryString = query.toString();
+    return queryString ? `/issues?${queryString}` : "/issues";
+  };
+
   if (totalPages <= 1) {
     return null;
   }

@@ -89,42 +89,24 @@ export function DashboardShell() {
   }, []);
 
   useEffect(() => {
-    const linkedHospitalId = user?.linkedHospitalId;
-
-    if (!token || !linkedHospitalId) {
-      setState({
-        data: null,
-        isLoading: false,
-        error: "Hospital dashboard is available after linking a hospital admin account to a hospital profile.",
-      });
-      return;
-    }
+    if (!token) return;
 
     let isMounted = true;
+    const linkedHospitalId = user?.linkedHospitalId;
 
-    setState((current) => ({
-      ...current,
-      isLoading: true,
-      error: null,
-    }));
+    setState((current) => ({ ...current, isLoading: true, error: null }));
 
+    // Pass linkedHospitalId if available; server will resolve from user record otherwise
     getHospitalDashboardMetrics(linkedHospitalId, token)
       .then((data) => {
         if (!isMounted) return;
-        setState({
-          data,
-          isLoading: false,
-          error: null,
-        });
-        void loadInsights(linkedHospitalId, token);
+        setState({ data, isLoading: false, error: null });
+        const hospitalId = linkedHospitalId ?? data.hospital._id?.toString();
+        if (hospitalId) void loadInsights(hospitalId, token);
       })
       .catch((error: unknown) => {
         if (!isMounted) return;
-        setState({
-          data: null,
-          isLoading: false,
-          error: getErrorMessage(error),
-        });
+        setState({ data: null, isLoading: false, error: getErrorMessage(error) });
       });
 
     return () => {
@@ -132,12 +114,57 @@ export function DashboardShell() {
     };
   }, [loadInsights, token, user?.linkedHospitalId]);
 
-  if (state.error && !state.data) {
+  if (state.isLoading && !state.data) {
     return (
-      <ErrorState
-        title="Dashboard unavailable"
-        description={state.error}
-      />
+      <div className="space-y-4 animate-pulse">
+        <div className="h-36 rounded-[30px] bg-[var(--border)]" />
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <div key={i} className="h-28 rounded-[24px] bg-[var(--border)]" />
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (state.error && !state.data) {
+    const isNoHospital =
+      state.error.toLowerCase().includes("no linkedhospitalid") ||
+      state.error.toLowerCase().includes("hospital not found");
+
+    return (
+      <div className="flex flex-col items-center justify-center gap-6 py-20 text-center">
+        <div className="rounded-2xl bg-amber-50 p-4 text-amber-600">
+          <RefreshCcw className="h-8 w-8" />
+        </div>
+        <div className="max-w-md">
+          <h2 className="text-xl font-semibold text-[var(--foreground)]">
+            {isNoHospital ? "No hospital linked to your account" : "Dashboard unavailable"}
+          </h2>
+          <p className="mt-2 text-sm leading-7 text-[var(--muted)]">
+            {isNoHospital
+              ? "Your account is not linked to a hospital profile yet. Register a hospital first, then update your profile with the hospital ID."
+              : state.error}
+          </p>
+        </div>
+        {isNoHospital ? (
+          <a
+            href="/hospital/network"
+            className="inline-flex items-center gap-2 rounded-full bg-[var(--primary)] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[var(--primary-strong)]"
+          >
+            Go to Network
+          </a>
+        ) : (
+          <button
+            type="button"
+            onClick={() => window.location.reload()}
+            className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] px-5 py-3 text-sm font-semibold transition hover:border-[var(--primary)]"
+          >
+            <RefreshCcw className="h-4 w-4" />
+            Retry
+          </button>
+        )}
+      </div>
     );
   }
 

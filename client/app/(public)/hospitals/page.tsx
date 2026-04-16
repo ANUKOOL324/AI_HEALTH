@@ -35,17 +35,6 @@ export default async function HospitalsPage({ searchParams }: HospitalsPageProps
     limit: 9,
   });
 
-  const createPageHref = (page: number) => {
-    const query = new URLSearchParams();
-    if (params.city) query.set("city", params.city);
-    if (params.state) query.set("state", params.state);
-    if (params.availabilityStatus) query.set("availabilityStatus", params.availabilityStatus);
-    if (search) query.set("search", search);
-    if (page > 1) query.set("page", String(page));
-    const queryString = query.toString();
-    return queryString ? `/hospitals?${queryString}` : "/hospitals";
-  };
-
   return (
     <HospitalsDiscovery
       initialHospitals={result.data}
@@ -56,7 +45,6 @@ export default async function HospitalsPage({ searchParams }: HospitalsPageProps
         availabilityStatus: params.availabilityStatus,
         search,
       }}
-      createPageHref={createPageHref}
     />
   );
 }

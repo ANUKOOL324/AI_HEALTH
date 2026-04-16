@@ -32,16 +32,6 @@ export default async function MedicalShopsPage({ searchParams }: MedicalShopsPag
     limit: 9,
   });
 
-  const createPageHref = (page: number) => {
-    const query = new URLSearchParams();
-    if (params.city) query.set("city", params.city);
-    if (params.state) query.set("state", params.state);
-    if (params.area) query.set("area", params.area);
-    if (page > 1) query.set("page", String(page));
-    const queryString = query.toString();
-    return queryString ? `/medical-shops?${queryString}` : "/medical-shops";
-  };
-
   return (
     <MedicalShopsDiscovery
       initialShops={result.data}
@@ -51,7 +41,6 @@ export default async function MedicalShopsPage({ searchParams }: MedicalShopsPag
         state: params.state,
         area: params.area,
       }}
-      createPageHref={createPageHref}
     />
   );
 }

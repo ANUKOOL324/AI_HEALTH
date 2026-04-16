@@ -33,13 +33,18 @@ export default function RegisterPage() {
     linkedHospitalId: "",
   });
 
-  useEffect(() => {
-    if (isHydrated && isAuthenticated) {
-      router.replace("/hospital");
-    }
-  }, [isAuthenticated, isHydrated, router]);
+  const { syncCurrentUser } = useAuth();
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  useEffect(() => {
+    if (!isHydrated || !isAuthenticated) return;
+    syncCurrentUser().then((user) => {
+      if (user) {
+        router.replace(user.role === "patient" ? "/" : "/hospital");
+      }
+    });
+  }, [isAuthenticated, isHydrated, router, syncCurrentUser]);
+
+  const handleSubmit = async (event: React.SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const payload = {
