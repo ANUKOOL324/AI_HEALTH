@@ -14,13 +14,9 @@ const publicLinks: NavLink[] = [];
 
 const guestLinks: NavLink[] = [];
 
-const patientAuthLinks: NavLink[] = [
-  { href: "/patient/feed", label: "My Feed" },
-];
+const patientAuthLinks: NavLink[] = [];
 
-const hospitalAuthLinks: NavLink[] = [
-  { href: "/hospital", label: "Dashboard" },
-];
+const hospitalAuthLinks: NavLink[] = [];
 
 export function PublicNavbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -59,7 +55,7 @@ export function PublicNavbar() {
               <HeartPulse className="h-5 w-5" />
             </div>
             <div>
-              <p className="text-base font-semibold tracking-tight text-[var(--foreground)]">Swastha Setu</p>
+              <p className="text-base font-semibold tracking-tight text-[var(--foreground)]">Swasth Setu</p>
               <p className="text-xs uppercase tracking-[0.24em] text-[var(--muted)]">Hospital coordination</p>
             </div>
           </a>

@@ -278,7 +278,7 @@ function AiPanel() {
         </div>
         <div>
           <p className="text-sm font-semibold text-[var(--primary)]">AI Health Assistant</p>
-          <p className="text-xs text-[var(--muted)]">Powered by CareBridge AI</p>
+          <p className="text-xs text-[var(--muted)]">Powered by Swasth Setu</p>
         </div>
       </div>
       <p className="text-xs leading-relaxed text-[var(--muted)]">
