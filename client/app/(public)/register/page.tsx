@@ -30,6 +30,7 @@ export default function RegisterPage() {
     phone: "",
     password: "",
     role: "patient" as UserRole,
+    hospitalName: "",
     linkedHospitalId: "",
   });
 
@@ -48,8 +49,17 @@ export default function RegisterPage() {
     event.preventDefault();
 
     const payload = {
-      ...form,
-      linkedHospitalId: form.linkedHospitalId.trim() || undefined,
+      name: form.name,
+      email: form.email,
+      phone: form.phone,
+      password: form.password,
+      role: form.role,
+      ...(form.role === "hospital_admin" && form.hospitalName.trim()
+        ? { hospitalName: form.hospitalName.trim() }
+        : {}),
+      ...(form.role === "doctor" && form.linkedHospitalId.trim()
+        ? { linkedHospitalId: form.linkedHospitalId.trim() }
+        : {}),
     };
 
     try {
@@ -65,7 +75,7 @@ export default function RegisterPage() {
   return (
     <AuthShell
       title="Create your account"
-      description="Register as a patient or hospital-side user so the MVP can support both public access and operations workflows."
+      description="Register as a patient or hospital-side user."
       footer={
         <p>
           Already have an account?{" "}
@@ -143,7 +153,7 @@ export default function RegisterPage() {
             id="role"
             value={form.role}
             onChange={(event) =>
-              setForm((current) => ({ ...current, role: event.target.value as UserRole }))
+              setForm((current) => ({ ...current, role: event.target.value as UserRole, hospitalName: "", linkedHospitalId: "" }))
             }
             className="w-full rounded-2xl border border-[var(--border)] bg-white px-4 py-3 outline-none transition focus:border-[var(--primary)]"
           >
@@ -155,10 +165,31 @@ export default function RegisterPage() {
           </select>
         </div>
 
-        {form.role !== "patient" ? (
+        {form.role === "hospital_admin" ? (
+          <div className="sm:col-span-2">
+            <label className="mb-2 block text-sm font-medium text-[var(--foreground)]" htmlFor="hospitalName">
+              Hospital name <span className="font-normal text-[var(--muted)]">(required)</span>
+            </label>
+            <input
+              id="hospitalName"
+              required
+              value={form.hospitalName}
+              onChange={(event) =>
+                setForm((current) => ({ ...current, hospitalName: event.target.value }))
+              }
+              className="w-full rounded-2xl border border-[var(--border)] bg-white px-4 py-3 outline-none transition focus:border-[var(--primary)]"
+              placeholder="e.g. City General Hospital"
+            />
+            <p className="mt-1.5 text-xs text-[var(--muted)]">
+              A hospital will be created automatically and linked to your account.
+            </p>
+          </div>
+        ) : null}
+
+        {form.role === "doctor" ? (
           <div className="sm:col-span-2">
             <label className="mb-2 block text-sm font-medium text-[var(--foreground)]" htmlFor="linkedHospitalId">
-              Linked hospital ID <span className="font-normal text-[var(--muted)]">(optional)</span>
+              Hospital ID <span className="font-normal text-[var(--muted)]">(optional)</span>
             </label>
             <input
               id="linkedHospitalId"
@@ -167,9 +198,11 @@ export default function RegisterPage() {
                 setForm((current) => ({ ...current, linkedHospitalId: event.target.value }))
               }
               className="w-full rounded-2xl border border-[var(--border)] bg-white px-4 py-3 outline-none transition focus:border-[var(--primary)]"
-              placeholder="MongoDB ObjectId of the hospital (e.g. 507f1f77bcf86cd799439011)"
+              placeholder="Ask your hospital admin for the hospital ID"
             />
-            <p className="mt-1.5 text-xs text-[var(--muted)]">Leave blank if you don&apos;t have a hospital ID yet. You can link one later.</p>
+            <p className="mt-1.5 text-xs text-[var(--muted)]">
+              Get this from your hospital admin. You can link it later if you don&apos;t have it yet.
+            </p>
           </div>
         ) : null}
 

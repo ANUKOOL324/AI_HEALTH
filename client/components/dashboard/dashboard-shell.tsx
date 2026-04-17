@@ -13,14 +13,13 @@ import {
 
 import { getErrorMessage } from "@/lib/utils";
 import { createAsyncState, type AIInsight, type AsyncState } from "@/types";
-import { aiService, getHospitalDashboardMetrics, type HospitalDashboardMetrics } from "@/services";
+import { aiService, clearDashboardCache, getHospitalDashboardMetrics, type HospitalDashboardMetrics } from "@/services";
 import { useAuth } from "@/hooks/use-auth";
 import { AppointmentsBarChart } from "@/components/dashboard/appointments-bar-chart";
 import { EquipmentStatusChart } from "@/components/dashboard/equipment-status-chart";
 import { IssueTrendsChart } from "@/components/dashboard/issue-trends-chart";
 import { SectionPanel } from "@/components/dashboard/section-panel";
 import { SummaryCard } from "@/components/dashboard/summary-card";
-import { ErrorState } from "@/components/ui/error-state";
 
 const summaryConfig = [
   {
@@ -73,6 +72,7 @@ export function DashboardShell() {
   const [insights, setInsights] = useState<AIInsight[]>([]);
   const [insightsError, setInsightsError] = useState<string | null>(null);
   const [isInsightsLoading, setIsInsightsLoading] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   const loadInsights = useCallback(async (hospitalId: string, accessToken: string) => {
     setIsInsightsLoading(true);
@@ -88,31 +88,28 @@ export function DashboardShell() {
     }
   }, []);
 
-  useEffect(() => {
+  const loadMetrics = useCallback(() => {
     if (!token) return;
 
-    let isMounted = true;
     const linkedHospitalId = user?.linkedHospitalId;
 
+    clearDashboardCache();
     setState((current) => ({ ...current, isLoading: true, error: null }));
 
-    // Pass linkedHospitalId if available; server will resolve from user record otherwise
     getHospitalDashboardMetrics(linkedHospitalId, token)
       .then((data) => {
-        if (!isMounted) return;
         setState({ data, isLoading: false, error: null });
         const hospitalId = linkedHospitalId ?? data.hospital._id?.toString();
         if (hospitalId) void loadInsights(hospitalId, token);
       })
       .catch((error: unknown) => {
-        if (!isMounted) return;
         setState({ data: null, isLoading: false, error: getErrorMessage(error) });
       });
-
-    return () => {
-      isMounted = false;
-    };
   }, [loadInsights, token, user?.linkedHospitalId]);
+
+  useEffect(() => {
+    loadMetrics();
+  }, [loadMetrics, refreshKey]);
 
   if (state.isLoading && !state.data) {
     return (
@@ -191,6 +188,19 @@ export function DashboardShell() {
           </div>
         </div>
       </section>
+
+      <div className="flex items-center justify-between">
+        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--muted)]">Summary</p>
+        <button
+          type="button"
+          onClick={() => setRefreshKey((k) => k + 1)}
+          disabled={state.isLoading}
+          className="inline-flex items-center gap-1.5 rounded-full border border-[var(--border)] px-3 py-1.5 text-xs font-medium text-[var(--muted)] transition hover:border-[var(--primary)] hover:text-[var(--primary)] disabled:opacity-50"
+        >
+          <RefreshCcw className={`h-3.5 w-3.5 ${state.isLoading ? "animate-spin" : ""}`} />
+          Refresh
+        </button>
+      </div>
 
       <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         {summaryConfig.map((item) => (
