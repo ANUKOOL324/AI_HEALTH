@@ -1,6 +1,6 @@
 # Swasth Setu
 
-AI-powered hospital, equipment, ambulance, and patient coordination platform built as a hackathon-ready full-stack project.
+AI-powered hospital, equipment, ambulance, and patient coordination platform.
 
 Swasth Setu is designed as a connected healthcare operations network, not just a hospital listing product. It helps patients discover care faster, and it helps hospitals manage internal operations and collaborate with other hospitals during shortages, support requests, and emergency situations.
 
