@@ -88,8 +88,9 @@ export function EmergencyLauncher({ compact = false }: EmergencyLauncherProps) {
       </button>
 
       {isOpen ? (
-        <div className="fixed inset-0 z-[70] flex items-center justify-center bg-[rgba(8,15,12,0.55)] p-4 backdrop-blur-sm">
-          <div className="max-h-[92vh] w-full max-w-4xl overflow-y-auto rounded-[32px] border border-[rgba(255,255,255,0.45)] bg-[rgba(255,255,255,0.98)] p-6 shadow-[0_30px_90px_rgba(8,15,12,0.24)] sm:p-8">
+        <div className="fixed inset-0 z-[70] overflow-y-auto bg-[rgba(8,15,12,0.55)] px-3 py-4 backdrop-blur-sm sm:px-4 sm:py-8">
+          <div className="flex min-h-full items-start justify-center sm:items-center">
+            <div className="w-full max-w-4xl overflow-hidden rounded-[28px] border border-[rgba(255,255,255,0.45)] bg-[rgba(255,255,255,0.98)] p-5 shadow-[0_30px_90px_rgba(8,15,12,0.24)] sm:max-h-[calc(100vh-4rem)] sm:overflow-y-auto sm:rounded-[32px] sm:p-8">
             <div className="flex items-start justify-between gap-4">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.22em] text-rose-600">Rapid triage</p>
@@ -160,7 +161,7 @@ export function EmergencyLauncher({ compact = false }: EmergencyLauncherProps) {
                 </div>
               </div>
 
-              <div className="rounded-[28px] border border-[var(--border)] bg-[rgba(16,35,27,0.03)] p-5">
+              <div className="rounded-[24px] border border-[var(--border)] bg-[rgba(16,35,27,0.03)] p-4 sm:rounded-[28px] sm:p-5">
                 {result ? (
                   <div className="grid gap-4">
                     <div className="rounded-[24px] border border-[var(--border)] bg-white p-4">
@@ -293,6 +294,7 @@ export function EmergencyLauncher({ compact = false }: EmergencyLauncherProps) {
                 )}
               </div>
             </form>
+            </div>
           </div>
         </div>
       ) : null}
