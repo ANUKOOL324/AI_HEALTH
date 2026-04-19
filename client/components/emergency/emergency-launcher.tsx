@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useMemo, useState } from "react";
+import { FormEvent, useEffect, useMemo, useState } from "react";
 import { AlertTriangle, Loader2, MapPin, Phone, Siren, Stethoscope, X } from "lucide-react";
 
 import { aiService } from "@/services";
@@ -32,6 +32,19 @@ export function EmergencyLauncher({ compact = false }: EmergencyLauncherProps) {
     }
     return "info" as const;
   }, [result?.interpretation.priority]);
+
+  useEffect(() => {
+    if (!isOpen) {
+      return;
+    }
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isOpen]);
 
   const resetState = () => {
     setProblemDescription("");
@@ -88,33 +101,34 @@ export function EmergencyLauncher({ compact = false }: EmergencyLauncherProps) {
       </button>
 
       {isOpen ? (
-        <div className="fixed inset-0 z-[70] overflow-y-auto bg-[rgba(8,15,12,0.55)] px-3 py-4 backdrop-blur-sm sm:px-4 sm:py-8">
-          <div className="flex min-h-full items-start justify-center sm:items-center">
-            <div className="w-full max-w-4xl overflow-hidden rounded-[28px] border border-[rgba(255,255,255,0.45)] bg-[rgba(255,255,255,0.98)] p-5 shadow-[0_30px_90px_rgba(8,15,12,0.24)] sm:max-h-[calc(100vh-4rem)] sm:overflow-y-auto sm:rounded-[32px] sm:p-8">
-            <div className="flex items-start justify-between gap-4">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-rose-600">Rapid triage</p>
-                <h2 className="mt-2 text-2xl font-semibold tracking-tight text-[var(--foreground)]">
-                  Emergency mode
-                </h2>
-                <p className="mt-2 max-w-2xl text-sm text-[var(--muted)]">
-                  Describe the situation and location. We will suggest the best hospital, likely equipment support,
-                  and the fastest contact path for the demo.
-                </p>
+        <div className="fixed inset-0 z-[70] overflow-y-auto bg-[rgba(8,15,12,0.55)] backdrop-blur-sm">
+          <div className="flex min-h-full items-start justify-center p-3 sm:p-5 lg:p-8">
+            <div className="flex w-full max-w-5xl flex-col overflow-hidden rounded-[28px] border border-[rgba(255,255,255,0.45)] bg-[rgba(255,255,255,0.98)] shadow-[0_30px_90px_rgba(8,15,12,0.24)] max-h-[calc(100dvh-1.5rem)] sm:max-h-[calc(100dvh-2.5rem)] lg:max-h-[calc(100dvh-4rem)] sm:rounded-[32px]">
+              <div className="sticky top-0 z-10 flex items-start justify-between gap-4 border-b border-[var(--border)] bg-[rgba(255,255,255,0.96)] px-5 py-4 backdrop-blur-xl sm:px-8 sm:py-6">
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.22em] text-rose-600">Rapid triage</p>
+                  <h2 className="mt-2 text-xl font-semibold tracking-tight text-[var(--foreground)] sm:text-2xl">
+                    Emergency mode
+                  </h2>
+                  <p className="mt-2 max-w-2xl text-sm text-[var(--muted)]">
+                    Describe the situation and location. We will suggest the best hospital, likely equipment support,
+                    and the fastest contact path for the demo.
+                  </p>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={closeModal}
+                  className="icon-button shrink-0 text-[var(--muted)] transition hover:text-[var(--foreground)]"
+                  aria-label="Close emergency mode"
+                >
+                  <X className="h-5 w-5" />
+                </button>
               </div>
 
-              <button
-                type="button"
-                onClick={closeModal}
-                className="icon-button text-[var(--muted)] transition hover:text-[var(--foreground)]"
-                aria-label="Close emergency mode"
-              >
-                <X className="h-5 w-5" />
-              </button>
-            </div>
-
-            <form onSubmit={handleSubmit} className="mt-6 grid gap-4 lg:grid-cols-[1.15fr_0.85fr]">
-              <div className="grid gap-4">
+              <div className="overflow-y-auto px-5 py-5 sm:px-8 sm:py-6">
+                <form onSubmit={handleSubmit} className="grid gap-4 lg:grid-cols-[1.15fr_0.85fr]">
+                  <div className="grid gap-4">
                 <label className="grid gap-2">
                   <span className="text-sm font-semibold text-[var(--foreground)]">Problem description</span>
                   <textarea
@@ -159,11 +173,11 @@ export function EmergencyLauncher({ compact = false }: EmergencyLauncherProps) {
                     Cancel
                   </button>
                 </div>
-              </div>
+                  </div>
 
-              <div className="rounded-[24px] border border-[var(--border)] bg-[rgba(16,35,27,0.03)] p-4 sm:rounded-[28px] sm:p-5">
-                {result ? (
-                  <div className="grid gap-4">
+                  <div className="rounded-[24px] border border-[var(--border)] bg-[rgba(16,35,27,0.03)] p-4 sm:rounded-[28px] sm:p-5">
+                    {result ? (
+                      <div className="grid gap-4">
                     <div className="rounded-[24px] border border-[var(--border)] bg-white p-4">
                       <div className="flex flex-wrap items-center gap-3">
                         <StatusBadge label={result.interpretation.priority} tone={priorityTone} />
@@ -279,21 +293,22 @@ export function EmergencyLauncher({ compact = false }: EmergencyLauncherProps) {
                         </div>
                       </div>
                     ) : null}
+                      </div>
+                    ) : (
+                      <div className="flex h-full min-h-[260px] flex-col justify-center rounded-[24px] border border-dashed border-[var(--border)] bg-white/80 p-6 text-center sm:min-h-[340px]">
+                        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-rose-50 text-rose-700">
+                          <Stethoscope className="h-5 w-5" />
+                        </div>
+                        <h3 className="mt-4 text-lg font-semibold text-[var(--foreground)]">Fast emergency guidance</h3>
+                        <p className="mt-2 text-sm text-[var(--muted)]">
+                          Submit the problem and location to get the best hospital recommendation, likely equipment
+                          support, and direct contact details.
+                        </p>
+                      </div>
+                    )}
                   </div>
-                ) : (
-                  <div className="flex h-full min-h-[340px] flex-col justify-center rounded-[24px] border border-dashed border-[var(--border)] bg-white/80 p-6 text-center">
-                    <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-rose-50 text-rose-700">
-                      <Stethoscope className="h-5 w-5" />
-                    </div>
-                    <h3 className="mt-4 text-lg font-semibold text-[var(--foreground)]">Fast emergency guidance</h3>
-                    <p className="mt-2 text-sm text-[var(--muted)]">
-                      Submit the problem and location to get the best hospital recommendation, likely equipment
-                      support, and direct contact details.
-                    </p>
-                  </div>
-                )}
+                </form>
               </div>
-            </form>
             </div>
           </div>
         </div>
