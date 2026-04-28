@@ -21,7 +21,7 @@
     radial-gradient(circle at top, rgba(13, 148, 136, 0.16), transparent 34%),
     radial-gradient(circle at 82% 16%, rgba(201, 109, 16, 0.08), transparent 24%);
   --font-sans: var(--font-plus-jakarta), "Aptos", "Segoe UI Variable", "Inter", "Helvetica Neue", Arial, sans-serif;
-  --font-display: var(--font-plus-jakarta), "Aptos", "Segoe UI Variable", "Inter", "Helvetica Neue", Arial, sans-serif;
+  --font-display: var(--font-outfit), var(--font-plus-jakarta), "Aptos", "Segoe UI Variable", "Inter", "Helvetica Neue", Arial, sans-serif;
 }
 
 * {
@@ -51,10 +51,19 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+  cursor: pointer;
 }
 
 button {
   font: inherit;
+  cursor: pointer;
+}
+
+[role="button"],
+input[type="button"],
+input[type="submit"],
+input[type="reset"] {
+  cursor: pointer;
 }
 
 .app-shell {
