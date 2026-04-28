@@ -1,22 +1,9 @@
 import type { Metadata } from "next";
-import { Outfit, Plus_Jakarta_Sans } from "next/font/google";
 
 import { NotificationListener } from "@/components/notifications/notification-listener";
 import { Toaster } from "@/components/ui/toaster";
 
 import "./globals.css";
-
-const plusJakartaSans = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  variable: "--font-plus-jakarta",
-  display: "swap",
-});
-
-const outfit = Outfit({
-  subsets: ["latin"],
-  variable: "--font-outfit",
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: "SwasthSetu",
@@ -30,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${plusJakartaSans.variable} ${outfit.variable}`}>
+      <body>
         <div className="app-shell">{children}</div>
         <NotificationListener />
         <Toaster />

@@ -20,8 +20,7 @@
   --hero-glow:
     radial-gradient(circle at top, rgba(13, 148, 136, 0.16), transparent 34%),
     radial-gradient(circle at 82% 16%, rgba(201, 109, 16, 0.08), transparent 24%);
-  --font-sans: var(--font-plus-jakarta), "Aptos", "Segoe UI Variable", "Inter", "Helvetica Neue", Arial, sans-serif;
-  --font-display: var(--font-outfit), var(--font-plus-jakarta), "Aptos", "Segoe UI Variable", "Inter", "Helvetica Neue", Arial, sans-serif;
+  --font-sans: "Aptos", "Segoe UI Variable", "Inter", "Helvetica Neue", Arial, sans-serif;
 }
 
 * {
@@ -42,10 +41,6 @@ body {
   font-family: var(--font-sans);
   font-size: 15px;
   line-height: 1.5;
-}
-
-.font-display {
-  font-family: var(--font-display);
 }
 
 a {

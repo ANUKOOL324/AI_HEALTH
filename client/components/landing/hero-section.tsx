@@ -22,10 +22,10 @@ export function HeroSection() {
       <FadeIn className="space-y-6 sm:space-y-8">
         <Pill label="Premium healthcare platform" />
         <div className="space-y-4 sm:space-y-5">
-          <h1 className="font-display max-w-[11.2ch] text-[2.12rem] font-extrabold leading-[0.95] tracking-[-0.055em] text-[var(--foreground)] sm:max-w-[11ch] sm:text-[3.85rem] sm:leading-[0.93] lg:text-[4.7rem]">
+          <h1 className="max-w-[11.5ch] text-[2.15rem] font-semibold leading-[0.98] tracking-[-0.055em] text-[var(--foreground)] sm:max-w-4xl sm:text-balance sm:text-5xl sm:leading-[0.95] lg:text-6xl">
             One platform for patients, hospitals, equipment, and urgent care coordination.
           </h1>
-          <p className="max-w-[35ch] text-[1rem] leading-7 text-[var(--muted)] sm:max-w-[36ch] sm:text-[1.12rem] sm:leading-8 lg:text-[1.2rem]">
+          <p className="max-w-[32ch] text-[0.98rem] leading-7 text-[var(--muted)] sm:max-w-2xl sm:text-lg sm:leading-8 lg:text-xl">
             Swasth Setu helps people discover care faster and gives hospitals a cleaner way to
             manage doctors, ambulances, equipment shortages, and live support workflows.
           </p>
