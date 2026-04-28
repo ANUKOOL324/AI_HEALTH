@@ -22,10 +22,20 @@ export function HeroSection() {
       <FadeIn className="space-y-6 sm:space-y-8">
         <Pill label="Premium healthcare platform" />
         <div className="space-y-4 sm:space-y-5">
-          <h1 className="max-w-[11.5ch] text-[2.15rem] font-semibold leading-[0.98] tracking-[-0.055em] text-[var(--foreground)] sm:max-w-4xl sm:text-balance sm:text-5xl sm:leading-[0.95] lg:text-6xl">
-            One platform for patients, hospitals, equipment, and urgent care coordination.
+          <h1 className="font-display max-w-[12.5ch] text-[2.05rem] font-extrabold leading-[0.92] tracking-[-0.065em] text-[var(--foreground)] sm:max-w-none sm:text-[3.65rem] sm:leading-[0.9] lg:text-[4.6rem]">
+            <span className="box-decoration-clone inline bg-[var(--accent-soft)] px-1.5 py-0.5 sm:px-2.5">
+              One platform for patients,
+            </span>
+            <br />
+            <span className="box-decoration-clone inline bg-[var(--accent-soft)] px-1.5 py-0.5 sm:px-2.5">
+              hospitals, equipment, and urgent
+            </span>
+            <br />
+            <span className="box-decoration-clone inline bg-[var(--accent-soft)] px-1.5 py-0.5 sm:px-2.5">
+              care coordination.
+            </span>
           </h1>
-          <p className="max-w-[32ch] text-[0.98rem] leading-7 text-[var(--muted)] sm:max-w-2xl sm:text-lg sm:leading-8 lg:text-xl">
+          <p className="max-w-[34ch] text-[1rem] font-medium leading-7 text-[var(--muted)] sm:max-w-[40rem] sm:text-[1.14rem] sm:leading-8 lg:text-[1.26rem]">
             Swasth Setu helps people discover care faster and gives hospitals a cleaner way to
             manage doctors, ambulances, equipment shortages, and live support workflows.
           </p>
