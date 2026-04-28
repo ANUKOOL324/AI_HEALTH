@@ -22,7 +22,7 @@ export function HeroSection() {
       <FadeIn className="space-y-6 sm:space-y-8">
         <Pill label="Premium healthcare platform" />
         <div className="space-y-4 sm:space-y-5">
-          <h1 className="font-display max-w-[10.4ch] text-[2.55rem] font-extrabold leading-[0.93] tracking-[-0.058em] text-[var(--foreground)] sm:max-w-[10.7ch] sm:text-[4.6rem] sm:leading-[0.92] lg:text-[5.55rem]">
+          <h1 className="font-display max-w-[11.2ch] text-[2.12rem] font-extrabold leading-[0.95] tracking-[-0.055em] text-[var(--foreground)] sm:max-w-[11ch] sm:text-[3.85rem] sm:leading-[0.93] lg:text-[4.7rem]">
             One platform for patients, hospitals, equipment, and urgent care coordination.
           </h1>
           <p className="max-w-[35ch] text-[1rem] leading-7 text-[var(--muted)] sm:max-w-[36ch] sm:text-[1.12rem] sm:leading-8 lg:text-[1.2rem]">
