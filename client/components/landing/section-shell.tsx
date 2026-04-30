@@ -11,7 +11,7 @@ interface SectionShellProps {
 
 export function SectionShell({ id, eyebrow, title, description, children }: SectionShellProps) {
   return (
-    <section id={id} className="space-y-6 py-8 sm:space-y-8 sm:py-14">
+    <section id={id} className="space-y-5 py-6 sm:space-y-6 sm:py-10">
       <FadeIn>
         <SectionHeading eyebrow={eyebrow} title={title} description={description} />
       </FadeIn>

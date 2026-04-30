@@ -8,7 +8,7 @@ import { useAuth } from "@/hooks";
 
 const navItems = [
   { label: "Dashboard", href: "/hospital/dashboard", icon: Activity },
-  { label: "Doctors", href: "/hospital", icon: ClipboardPlus },
+  { label: "Doctors", href: "/hospital/doctors", icon: ClipboardPlus },
   { label: "Equipment", href: "/hospital/equipment", icon: Package },
   { label: "Ambulances", href: "/hospital/ambulances", icon: Truck },
   { label: "Appointments", href: "/hospital/appointments", icon: CalendarClock },

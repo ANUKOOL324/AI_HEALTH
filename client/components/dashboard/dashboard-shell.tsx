@@ -215,25 +215,26 @@ export function DashboardShell() {
         ))}
       </section>
 
-      <div className="grid gap-6 xl:grid-cols-[1.3fr_0.9fr]">
+      <div className="grid gap-6 xl:grid-cols-[minmax(0,1.5fr)_minmax(320px,0.78fr)] 2xl:grid-cols-[minmax(0,1.58fr)_360px]">
         <SectionPanel
           eyebrow="Charts"
           title="Readiness and demand trends"
           description="Live operational charts fed by the backend analytics endpoints so the dashboard reads clearly during demos and scales into deeper reporting later."
         >
-          <div className="grid gap-4 xl:grid-cols-2">
+          <div className="grid gap-4 lg:grid-cols-2">
             <EquipmentStatusChart data={metrics?.charts.equipmentStatus ?? []} />
             <IssueTrendsChart data={metrics?.charts.issueTrends ?? []} />
-            <div className="xl:col-span-2">
+            <div className="lg:col-span-2">
               <AppointmentsBarChart data={metrics?.charts.appointmentsPerDay ?? []} />
             </div>
           </div>
         </SectionPanel>
 
+        <div className="xl:sticky xl:top-6 xl:self-start">
         <SectionPanel
           eyebrow="AI insights"
-          title="What the team should watch next"
-          description="Concise AI-generated observations based on issue patterns, equipment demand, and appointment behavior."
+          title="What needs attention"
+          description="Concise operational observations based on issue patterns, equipment demand, and appointment behaviour."
         >
           <div className="space-y-4">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -288,14 +289,15 @@ export function DashboardShell() {
                     },
                   ]
               ).map((item) => (
-                <article key={item.id} className="rounded-[22px] border border-[var(--border)] bg-[rgba(16,35,27,0.03)] p-4 sm:p-5">
-                  <h3 className="text-base font-semibold text-[var(--foreground)]">{item.title}</h3>
+                <article key={item.id} className="rounded-[20px] border border-[var(--border)] bg-[rgba(16,35,27,0.03)] p-4">
+                  <h3 className="text-[15px] font-semibold text-[var(--foreground)] sm:text-base">{item.title}</h3>
                   <p className="mt-2 text-sm leading-7 text-[var(--muted)]">{item.insight}</p>
                 </article>
               ))}
             </div>
           </div>
         </SectionPanel>
+        </div>
       </div>
     </div>
   );

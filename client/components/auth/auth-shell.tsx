@@ -14,9 +14,9 @@ export function AuthShell({ title, description, footer, children }: AuthShellPro
           <h1 className="mt-5 text-4xl font-semibold tracking-tight">{title}</h1>
           <p className="mt-4 max-w-md text-base leading-8 text-white/78">{description}</p>
           <div className="mt-10 space-y-4 text-sm text-white/74">
-            <p>Patient login for appointment, issue, and support requests.</p>
-            <p>Hospital workspace access for operations, equipment, and ambulance coordination.</p>
-            <p>Simple JWT-based auth for hackathon MVP with protected hospital routes.</p>
+            <p>Patient access for hospital discovery, booking, and support requests.</p>
+            <p>Hospital access for operations, equipment visibility, and ambulance coordination.</p>
+            <p>One account layer for public care journeys and hospital-side workflows.</p>
           </div>
         </section>
 

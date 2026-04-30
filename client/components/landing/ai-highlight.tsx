@@ -1,6 +1,7 @@
 import { BrainCircuit, SearchCheck, Sparkles } from "lucide-react";
 
 import { FadeIn } from "@/components/motion/fade-in";
+import { InteractiveCard } from "@/components/motion/interactive-card";
 
 const aiItems = [
   {
@@ -38,13 +39,15 @@ export function AiHighlight() {
             const Icon = item.icon;
 
             return (
-              <div key={item.title} className="rounded-[20px] border border-[var(--border)] bg-[var(--background)] p-4 sm:rounded-[24px] sm:p-5">
-                <div className="inline-flex rounded-2xl bg-[var(--primary-soft)] p-3 text-[var(--primary)]">
-                  <Icon className="h-5 w-5" />
+              <InteractiveCard key={item.title}>
+                <div className="rounded-[20px] border border-[var(--border)] bg-[var(--background)] p-4 sm:rounded-[24px] sm:p-5">
+                  <div className="inline-flex rounded-2xl bg-[var(--primary-soft)] p-3 text-[var(--primary)]">
+                    <Icon className="h-5 w-5" />
+                  </div>
+                  <h4 className="mt-4 text-lg font-semibold text-[var(--foreground)]">{item.title}</h4>
+                  <p className="mt-2 text-sm leading-6 text-[var(--muted)] sm:leading-7">{item.description}</p>
                 </div>
-                <h4 className="mt-4 text-lg font-semibold text-[var(--foreground)]">{item.title}</h4>
-                <p className="mt-2 text-sm leading-6 text-[var(--muted)] sm:leading-7">{item.description}</p>
-              </div>
+              </InteractiveCard>
             );
           })}
         </div>

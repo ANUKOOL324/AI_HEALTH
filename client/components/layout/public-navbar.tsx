@@ -113,6 +113,7 @@ export function PublicNavbar() {
                   href="/register"
                   className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-white px-4 py-2 text-sm font-semibold text-[var(--foreground)] transition hover:border-[var(--primary)] hover:text-[var(--primary)]"
                 >
+                <Stethoscope className="h-4 w-4 text-[var(--primary)]" />
                   Register
                 </a>
               </div>
@@ -157,7 +158,7 @@ export function PublicNavbar() {
                     onClick={() => setIsMenuOpen(false)}
                     className="rounded-2xl border border-[var(--border)] px-3 py-2 text-center text-sm font-semibold text-[var(--foreground)] transition hover:border-[var(--primary)] hover:text-[var(--primary)]"
                   >
-                    Sign in
+                    Log in
                   </a>
                   <a
                     href="/register"

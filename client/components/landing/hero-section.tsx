@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowRight, BrainCircuit, Building2, HeartHandshake, ShieldPlus, Sparkles } from "lucide-react";
 
 import { FadeIn } from "@/components/motion/fade-in";
+import { InteractiveCard } from "@/components/motion/interactive-card";
 import { Pill } from "@/components/ui/pill";
 
 const statItems = [
@@ -50,13 +51,12 @@ export function HeroSection() {
 
         <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
           {statItems.map((item) => (
-            <div
-              key={item.label}
-              className="rounded-3xl border border-[var(--border)] bg-white p-4 shadow-sm sm:p-5"
-            >
-              <p className="text-2xl font-semibold text-[var(--foreground)]">{item.value}</p>
-              <p className="mt-2 max-w-[18ch] text-sm leading-6 text-[var(--muted)]">{item.label}</p>
-            </div>
+            <InteractiveCard key={item.label}>
+              <div className="rounded-3xl border border-[var(--border)] bg-white p-4 shadow-sm sm:p-5">
+                <p className="text-2xl font-semibold text-[var(--foreground)]">{item.value}</p>
+                <p className="mt-2 max-w-[18ch] text-sm leading-6 text-[var(--muted)]">{item.label}</p>
+              </div>
+            </InteractiveCard>
           ))}
         </div>
       </FadeIn>
@@ -83,12 +83,14 @@ export function HeroSection() {
                 const Icon = [ShieldPlus, Sparkles, BrainCircuit][index];
 
                 return (
-                  <div key={item} className="flex items-start gap-3 rounded-2xl bg-white/70 px-3 py-3 sm:bg-transparent sm:px-0 sm:py-0">
-                    <div className="mt-1 rounded-xl bg-[var(--primary-soft)] p-2 text-[var(--primary)]">
-                      <Icon className="h-4 w-4" />
+                  <InteractiveCard key={item}>
+                    <div className="flex items-start gap-3 rounded-2xl bg-white/70 px-3 py-3 sm:bg-transparent sm:px-0 sm:py-0">
+                      <div className="mt-1 rounded-xl bg-[var(--primary-soft)] p-2 text-[var(--primary)]">
+                        <Icon className="h-4 w-4" />
+                      </div>
+                      <p className="text-sm leading-6 text-[var(--muted)] sm:leading-7">{item}</p>
                     </div>
-                    <p className="text-sm leading-6 text-[var(--muted)] sm:leading-7">{item}</p>
-                  </div>
+                  </InteractiveCard>
                 );
               })}
             </div>
